@@ -1,0 +1,163 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AppHeader from './Header.astro';
+import AppFooter from './Footer.astro';
+import { author } from '../sample';
+import { secciones } from '../secciones';
+
+const { frontmatter } = Astro.props;
+const seccion = secciones.find(s => s.slug === frontmatter.categoria);
+const back = seccion ? { url: `/${seccion.slug}/`, label: seccion.titulo } : { url: '/evidencias/', label: 'Evidencias' };
+const esEnunciado = frontmatter.tipo === 'enunciado';
+---
+
+<Layout titulo={frontmatter.title}>
+<AppHeader />
+
+<main class="max-w-3xl mx-auto px-5 py-14 w-full">
+  <nav class="text-sm text-muted flex flex-wrap gap-2">
+    <a href="/" class="enlace">Inicio</a><span>/</span>
+    <a href={back.url} class="enlace">{back.label}</a>
+  </nav>
+
+  <header class="mt-10 pb-8 border-b border-line">
+    <p class="etiqueta">
+      {esEnunciado ? 'Enunciado' : 'Solución'}{frontmatter.pubDate && ` · ${frontmatter.pubDate}`}
+    </p>
+    <h1 class="mt-3 text-4xl md:text-[2.6rem] font-semibold tracking-tight leading-tight">{frontmatter.title}</h1>
+    {!esEnunciado && (
+      <p class="mt-5 text-sm text-muted">
+        {frontmatter.autores ? `Trabajo en grupo: ${frontmatter.autores}` : `Autor: ${author.name}`}
+      </p>
+    )}
+    {frontmatter.tags?.length > 0 && (
+      <ul class="mt-4 flex flex-wrap gap-2">
+        {frontmatter.tags.map((tag: string) => (
+          <li class="font-mono text-xs border border-line px-2.5 py-1">{tag}</li>
+        ))}
+      </ul>
+    )}
+  </header>
+
+  {frontmatter.image?.url && (
+    <figure class="mt-8 border border-line bg-surface">
+      <img src={frontmatter.image.url} alt={frontmatter.image.alt || frontmatter.title} class="w-full max-h-80 object-cover object-top" />
+    </figure>
+  )}
+
+  <article class="contenido mt-10">
+    <slot />
+  </article>
+
+  <div class="mt-14 pt-6 border-t border-line">
+    <a href={back.url} class="text-sm enlace">← Volver a {back.label}</a>
+  </div>
+</main>
+
+<AppFooter />
+</Layout>
+
+<style is:global>
+.contenido { line-height: 1.75; }
+.contenido h2 {
+  font-size: 1.45rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 2.75rem 0 0.9rem;
+}
+.contenido h2::before {
+  content: "";
+  display: block;
+  width: 2rem;
+  height: 1px;
+  background: var(--color-accent);
+  margin-bottom: 0.9rem;
+}
+.contenido h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 2rem 0 0.6rem;
+}
+.contenido p { margin-bottom: 1rem; }
+.contenido ul, .contenido ol { padding-left: 1.3rem; margin-bottom: 1.1rem; }
+.contenido ul { list-style: disc; }
+.contenido ol { list-style: decimal; }
+.contenido li { margin-bottom: 0.4rem; }
+.contenido li::marker { color: var(--color-accent); }
+.contenido strong { font-weight: 600; }
+.contenido a:not(.docs a) {
+  text-decoration: underline;
+  text-decoration-color: var(--color-line);
+  text-underline-offset: 3px;
+}
+.contenido a:not(.docs a):hover { color: var(--color-accent); text-decoration-color: var(--color-accent); }
+.contenido img {
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  max-width: 100%;
+  margin: 1.5rem 0;
+}
+.contenido hr { border: none; border-top: 1px solid var(--color-line); margin: 2rem 0; }
+.contenido pre {
+  background: #1F1D1B;
+  color: #EDE9E3;
+  padding: 1.1rem 1.2rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  margin: 1.25rem 0;
+}
+.contenido code:not(pre code) {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--color-accent-soft);
+  padding: 0.1rem 0.35rem;
+}
+.contenido table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0 1.75rem;
+  font-size: 0.9rem;
+  display: block;
+  overflow-x: auto;
+}
+.contenido th, .contenido td {
+  border-bottom: 1px solid var(--color-line);
+  padding: 0.6rem 0.75rem 0.6rem 0;
+  text-align: left;
+  vertical-align: top;
+}
+.contenido th {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+  font-weight: 500;
+  border-bottom-color: var(--color-ink);
+}
+.contenido blockquote {
+  border-left: 2px solid var(--color-accent);
+  padding: 0.2rem 0 0.2rem 1.1rem;
+  margin: 1.5rem 0;
+  color: var(--color-muted);
+}
+.contenido blockquote p:last-child { margin-bottom: 0; }
+.contenido .docs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.25rem 0 1.5rem;
+}
+.contenido .docs a {
+  display: inline-block;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--color-ink);
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: var(--color-surface);
+}
+.contenido .docs a:hover { background: var(--color-ink); color: var(--color-bg); }
+.contenido .docs a.enunciado { border-style: dashed; border-color: var(--color-muted); }
+</style>

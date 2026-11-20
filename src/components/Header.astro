@@ -1,0 +1,36 @@
+---
+import { author } from '../sample'
+
+const links = [
+  { name: 'Inicio', path: '/' },
+  { name: 'Sobre mí', path: '/#sobre-mi' },
+  { name: 'Evidencias', path: '/evidencias/' },
+  { name: 'Repositorio', path: author.repo, externo: true },
+]
+
+const actual = Astro.url.pathname
+---
+
+<header class="border-b border-line">
+  <div class="max-w-5xl mx-auto px-5 py-5 flex flex-wrap items-center justify-between gap-x-8 gap-y-3">
+    <a href="/" class="font-mono text-sm">
+      {author.nickname}<span class="text-accent">.</span>
+    </a>
+
+    <nav>
+      <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+        {links.map(item => (
+          <li>
+            <a
+              href={item.path}
+              target={item.externo ? '_blank' : '_self'}
+              class={`hover:text-accent ${actual === item.path ? 'text-accent' : 'text-ink'}`}
+            >
+              {item.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>

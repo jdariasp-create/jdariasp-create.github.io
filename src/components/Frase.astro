@@ -1,0 +1,14 @@
+---
+import { author } from '../sample'
+---
+
+{author.frase && (
+<section class="border-y border-line bg-surface">
+  <blockquote class="max-w-3xl mx-auto px-5 py-16 text-center">
+    <span class="block w-10 h-px bg-accent mx-auto mb-8" aria-hidden="true"></span>
+    <p class="font-serif italic text-3xl md:text-4xl leading-snug">
+      “{author.frase}”
+    </p>
+  </blockquote>
+</section>
+)}

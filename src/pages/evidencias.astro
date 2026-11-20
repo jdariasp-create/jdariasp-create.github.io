@@ -1,0 +1,71 @@
+---
+import Layout from "../layouts/Layout.astro";
+import AppHeader from "../components/Header.astro";
+import AppFooter from "../components/Footer.astro";
+import Titulo from "../components/Titulo.astro";
+import { secciones, postsDe } from "../secciones";
+
+// Enunciados entregados por el docente, en orden de sección.
+const enunciados = [
+  { titulo: "Taller 1 · Reducción a tablas (Terminal Portuaria Bahía Verde)", seccion: "Modelado", archivo: "/docs/enunciados/Enunciado_Taller1_Reglas_de_Transformacion.pdf" },
+  { titulo: "Taller de normalización (hospital, pedidos, empleados)", seccion: "Normalización", archivo: "/docs/enunciados/Enunciado_Taller_Normalizacion.pdf" },
+  { titulo: "Ejercicio de repaso de normalización", seccion: "Normalización", archivo: "/docs/enunciados/Enunciado_Ejercicio_Repaso_Normalizacion.pdf" },
+  { titulo: "Taller avanzado de normalización (envíos y videoclub)", seccion: "Normalización", archivo: "/docs/enunciados/Enunciado_Taller_Avanzado_Normalizacion.pdf" },
+  { titulo: "Ejercicios de álgebra relacional (empleados y universidades)", seccion: "Álgebra relacional y SQL", archivo: "/docs/enunciados/Enunciado_Algebra_Relacional_Empleados.pdf" },
+];
+---
+
+<Layout titulo="Evidencias">
+  <AppHeader />
+
+  <main class="max-w-5xl mx-auto px-5 py-16 w-full">
+    <p class="etiqueta">Portafolio · Bases de Datos I</p>
+    <h1 class="mt-3 text-4xl md:text-5xl font-semibold tracking-tight">Evidencias</h1>
+    <p class="mt-4 text-muted max-w-xl leading-relaxed">
+      Los trabajos están organizados en cuatro secciones. En cada uno explico
+      primero el problema y después cómo lo resolví.
+    </p>
+
+    <ul class="mt-12 border-t border-line">
+      {secciones.map((s) => (
+        <li class="border-b border-line">
+          <a href={`/${s.slug}/`} class="group grid grid-cols-1 md:grid-cols-[4rem_1fr_240px] gap-x-6 gap-y-4 py-8 items-center">
+            <span class="font-mono text-sm text-accent">{s.numero}</span>
+            <div>
+              <h2 class="text-2xl font-semibold group-hover:text-accent">{s.titulo}</h2>
+              <p class="mt-1 text-sm etiqueta normal-case">{s.subtitulo}</p>
+              <p class="mt-3 text-muted leading-relaxed">{s.resumen}</p>
+              <ul class="mt-3 text-sm space-y-1">
+                {postsDe(s.slug).map((p: any) => (
+                  <li class="text-ink">— {p.frontmatter.title}</li>
+                ))}
+              </ul>
+            </div>
+            <div class="border border-line bg-surface h-36 overflow-hidden">
+              <img src={s.img} alt={s.titulo} class="w-full h-full object-cover object-top" />
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <section class="mt-20">
+      <Titulo texto="Enunciados" />
+      <p class="mt-4 text-muted max-w-xl leading-relaxed">
+        Estos son los documentos originales con los que el docente planteó cada actividad.
+      </p>
+      <ul class="mt-6">
+        {enunciados.map((e) => (
+          <li class="border-b border-line">
+            <a href={e.archivo} target="_blank" class="group flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-6 py-4">
+              <span class="group-hover:text-accent">{e.titulo}</span>
+              <span class="etiqueta whitespace-nowrap">{e.seccion} · PDF ↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </main>
+
+  <AppFooter />
+</Layout>

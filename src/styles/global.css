@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/* Paleta y tipografías del portafolio */
+@theme {
+  --color-bg: #F4F1EC;
+  --color-surface: #FBFAF7;
+  --color-ink: #1A1A1A;
+  --color-muted: #6F6A64;
+  --color-line: #DAD4CB;
+  --color-accent: #9E3B2C;
+  --color-accent-soft: #EEE1DA;
+
+  --font-sans: "Manrope", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-serif: "Instrument Serif", Georgia, serif;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Sin animaciones ni transiciones en todo el sitio */
+*,
+*::before,
+*::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+::selection {
+  background: var(--color-accent-soft);
+}
+
+.etiqueta {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.enlace {
+  text-decoration: underline;
+  text-decoration-color: var(--color-line);
+  text-underline-offset: 4px;
+}
+.enlace:hover {
+  text-decoration-color: var(--color-accent);
+  color: var(--color-accent);
+}

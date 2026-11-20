@@ -1,0 +1,28 @@
+---
+import Titulo from './Titulo.astro'
+import { secciones, postsDe } from '../secciones'
+---
+
+<section id="evidencias" class="max-w-5xl mx-auto px-5 py-20">
+  <Titulo numero="02" texto="Evidencias del semestre" />
+
+  <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
+    {secciones.map(s => {
+      const total = postsDe(s.slug).length
+      return (
+        <a href={`/${s.slug}/`} class="group block">
+          <div class="border border-line bg-surface overflow-hidden">
+            <img src={s.img} alt={s.titulo} class="w-full h-52 object-cover object-top grayscale-[35%] group-hover:grayscale-0" />
+          </div>
+          <div class="mt-4 flex items-baseline justify-between gap-4">
+            <h3 class="text-xl font-semibold group-hover:text-accent">
+              <span class="font-mono text-sm text-accent mr-2">{s.numero}</span>{s.titulo}
+            </h3>
+            <span class="etiqueta whitespace-nowrap">{total} {total === 1 ? 'trabajo' : 'trabajos'}</span>
+          </div>
+          <p class="mt-2 text-muted leading-relaxed">{s.resumen}</p>
+        </a>
+      )
+    })}
+  </div>
+</section>

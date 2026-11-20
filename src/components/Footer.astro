@@ -1,0 +1,26 @@
+---
+import { author } from '../sample'
+
+const enlaces = [
+  { nombre: 'GitHub', link: author.github },
+  { nombre: 'Repositorio', link: author.repo },
+  { nombre: 'Correo', link: author.email ? `mailto:${author.email}` : '' },
+  { nombre: 'Instagram', link: author.instagram },
+  { nombre: 'LinkedIn', link: author.linkedin },
+].filter(item => item.link)
+---
+
+<footer class="mt-auto border-t border-line">
+  <div class="max-w-5xl mx-auto px-5 py-10 flex flex-col md:flex-row md:items-end justify-between gap-6 text-sm">
+    <div>
+      <p class="font-mono">{author.nickname}<span class="text-accent">.</span></p>
+      <p class="mt-1 text-muted">{author.materia} · {author.carrera} · {author.universidad}</p>
+    </div>
+    <ul class="flex flex-wrap gap-x-6 gap-y-2">
+      {enlaces.map(item => (
+        <li><a href={item.link} target="_blank" class="enlace">{item.nombre}</a></li>
+      ))}
+    </ul>
+    <p class="text-muted">© {new Date().getFullYear()} {author.name}</p>
+  </div>
+</footer>
